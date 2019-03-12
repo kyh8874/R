@@ -1,0 +1,52 @@
+---
+title: "score"
+author: "rhadoop"
+date: "2019년 3월 12일"
+output: 
+  github_document: default
+  html_document: default
+  pdf_document: 
+    latex_engine: xelatex
+  word_document: default
+  html_notebook: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
+library(readxl)
+getwd()
+#read.csv("../Data/csv_exam.csv") -> df_csv
+read_excel("Data/excel_exam.xlsx")-> df_excel
+str(df_excel)
+```
+### 1.학급별 점수
+```{r}
+df_excel[df_excel$class==1,]
+df_excel[df_excel$class==2,]
+df_excel[df_excel$class==3,]
+df_excel[df_excel$class==4,]
+df_excel[df_excel$class==5,]
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+library(ggplot2)
+qplot(class, math, data=df_excel,geom='auto', color=class)
+
+
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
