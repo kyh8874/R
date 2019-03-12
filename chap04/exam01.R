@@ -12,4 +12,18 @@ df_exam= data.frame(math,english)
 
 read.csv("Data/csv_exam.csv")->df_csv
 library(readxl)
-read_excel("Data/excel_exam.xlsx")--->df_excel
+read_excel("Data/excel_exam.xlsx")->df_excel
+
+
+#column지정
+df_csv$class
+
+#row 지정
+df_csv[1:5,]
+df_csv[c(2,5,10),c("class","math")]
+
+library(sqldf)
+sqldf("
+        select class, math from df_csv
+          where class=1")
+
