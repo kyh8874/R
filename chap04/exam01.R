@@ -11,3 +11,5 @@ english=c(60,50,30,70)
 df_exam= data.frame(math,english)
 
 read.csv("Data/csv_exam.csv")->df_csv
+library(readxl)
+read_excel("Data/excel_exam.xlsx")--->df_excel
