@@ -1,0 +1,28 @@
+read.csv("Data/welfare_utf8.csv",stringsAsFactors = F)  -> welfare
+str(welfare)
+View(welfare)
+head(welfare, 10)
+tail(welfare,10)
+summary(welfare)
+dim(welfare)
+min(welfare$age)
+mean(welfare$age)
+median(welfare$age)
+quantile(welfare$age,1/4)
+quantile(welfare$age,3/4)
+IQR(welfare$age)
+quantile(welfare$age,3/4) - quantile(welfare$age,1/4)
+
+library(ggplot2)
+qplot(age, birth, data = welfare, geom ="boxplot")
+qplot(birth, X, data = welfare, geom ="boxplot")
+qplot(age,X,data = welfare, geom ="boxplot")
+boxplot(welfare$age)
+boxplot(welfare$income)
+
+sum(welfare$income, na.rm = T)
+length(welfare$age)
+length(1:5)
+length(10:5)
+# ggplo2 의 mpg 데이터를 데이터 프레임 형태로 불러오기
+mpg <- as.data.frame(ggplot2::mpg)
