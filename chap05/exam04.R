@@ -15,6 +15,12 @@ qplot(df_mpg$grade)
 #out place
 mutate(mpg, total=(cty+hwy)/2) -> df_mpg2
 
+#####################
+### git clone test
+####################
+#git clone git clone git@github.com:kyh8874/R.git ...파일명을 줄수 있다
+
+
 
 
 
