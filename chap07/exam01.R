@@ -65,5 +65,5 @@ exam %>% filter(is.na(exam$math))
 #                                                 sum_math = sum(math, na.rm = T),
 #                                                median_math = median(math, na.rm = T))
 
-
+# dev B
 
