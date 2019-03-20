@@ -40,7 +40,30 @@ sum(is.na(exam$math))
 
 exam %>% filter(is.na(exam$math))
 
+#결측치 확인하기
+###########
 
+#1. 결측치 확인
+#     is.na(df)
+
+#2. 결측치 빈도 출력
+#     table(is.na(df))
+
+#3.결측치 있는 행 제거하기====>!is.na(score)
+#    df %>% filter(!is.na(score))
+#    df_nomiss <- df %>% filter(!is.na(score) & !is.na(sex))
+
+#4. 결측치가 하나라도 있으면 제거하기====>na.omit(df)
+#     # 모든 변수에 결측치 없는 데이터 추출
+#     df_nomiss2 <- na.omit(df)
+
+#5.함수의 결측치 제외 기능 이용하기====> (na.rm)
+#    mean(df$score, na.rm = T)
+#    sum(df$score, na.rm = T)
+
+#   exam %>% summarise(mean_math = mean(math, na.rm = T),
+#                                                 sum_math = sum(math, na.rm = T),
+#                                                 median_math = median(math, na.rm = T))
 
 
 
