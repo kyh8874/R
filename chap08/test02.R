@@ -1,4 +1,5 @@
 library(tidyverse)
+library(plotly)
 
 mpg %>% group_by(manufacturer) %>% 
         filter(class=='suv' & !is.na(cty)) %>% 
@@ -18,7 +19,7 @@ sum_class %>% ggplot(aes(class))+geom_bar()
 mpg %>% group_by(class) %>% 
         summarise(n=n())-> sum_col
 sum_col %>% ggplot(aes(reorder(class,-n),n))+
-            labs(x="제조사",y="종류")+ 
+            labs(x="차종",y="종류")+ 
             geom_col(aes(fill=class)) -> plot_result
 
 ggplotly(plot_result)
