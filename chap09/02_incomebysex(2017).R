@@ -1,6 +1,7 @@
 library(tidyverse)
 library(plotly)
-load("koweps/welfare.rda")
+load("koweps/welfare17.rda")
+str(welfare)
 summary(welfare)
 
 #

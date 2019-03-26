@@ -46,7 +46,9 @@ boxplot(welfare$income)$stats
 wel<-welfare
 wel$income=ifelse(wel$income <0.46 | wel$income > 606.5, NA , wel$income )
 table(is.na(wel$income))
-wel %>% filter(!is.na(wel$income )) %>% qplot(y=income,data=wel,geom = "boxplot") %>% ggplotly()
+wel %>% filter(!is.na(wel$income )) ->aa
+qplot(y=income, data=aa, geom = "boxplot")
+boxplot(wel$income)$stats
 ##################
 
 qplot(y=income,data=welfare,geom = "boxplot")
