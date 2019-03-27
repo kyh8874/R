@@ -42,15 +42,6 @@ sqldf("select avg(income) from welfare")
 boxplot(welfare$income)
 boxplot(welfare$income)$stats
 
-###################
-wel<-welfare
-wel$income=ifelse(wel$income <0.46 | wel$income > 606.5, NA , wel$income )
-table(is.na(wel$income))
-wel %>% filter(!is.na(wel$income )) ->aa
-qplot(y=income, data=aa, geom = "boxplot")
-boxplot(wel$income)$stats
-##################
-
 qplot(y=income,data=welfare,geom = "boxplot")
 ggplot(welfare,aes(y=income,x="total"))+geom_boxplot()
 
@@ -59,20 +50,18 @@ ggplot(welfare,aes(y=income,x="total"))+geom_boxplot()
 
 qplot(income,data=welfare,breaks=seq(0,2400, by=200))
 
-
 ggplot(welfare,aes(x=income))+geom_histogram(breaks=seq(0,2400, by=200))
 
 qplot(sex,data=welfare)
 
-# ggplot(welfare,aes(x=sex))+geom_histogram(breaks=seq(0,2400, by=200))
-
-# summarize(x) , summary()
-
-summary(welfare)
-
 # income by sex 
 # 1. 평균 요약 테이블
-
+library(sqldf)
+sqldf("
+        select sex, avg(income)
+          from welfare
+         group by sex
+      ")
 ## NA 제거 옵션 필수 추가 na.rm=T
 welfare %>% summarise(mean(welfare$income,na.rm = T))
 

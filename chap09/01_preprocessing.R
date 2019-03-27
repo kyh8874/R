@@ -21,18 +21,26 @@ read.dta("koweps/Koweps_hpc10_2015_beta3.dta") %>%
           rename(religion=h10_g11) %>% #종교급
           rename(code_job=h10_eco9) %>% #직종
           rename(code_region=h10_reg7) ->welfare  #7개 권역별 지역구분 
-#후속작업 
+#후속작업(cleansing) 
 welfare %<>% mutate(sex=ifelse(sex==1, "male","female")) %>% 
              mutate(income=ifelse(income==0, NA,  income)) %>% 
              mutate(age = 2015-welfare$birth+1) %>% 
+             mutate(ageg=ifelse(age < 30, 'young',
+                     ifelse(age < 60, 'middle','old'))) %>% 
+             mutate(code_job = as.character(welfare$code_job)) %>% 
+             mutate(code_job=ifelse(str_length(code_job)==3,
+                                    str_c("0",code_job),
+                                    code_job)) %>% 
              select(sex, 
-                    age,
                     birth,
+                    age,
+                    ageg,
                     marriage,
                     religion,
                     income,
                     code_job,
                     code_region) 
+
 
 save(welfare,file="koweps/welfare.rda")
           

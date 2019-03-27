@@ -1,0 +1,39 @@
+---
+title: "Q3"
+author: "rhadoop"
+date: "2019년 3월 27일"
+output: 
+  word_document: default
+  html_document: default
+  pdf_document: 
+    latex_engine: xelatex
+  github_document: default
+  html_notebook: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+
+### 나이 및 성별 월급차이(incomebyagebysex) -성별 월급차이는 나이별로 다를까?
+```{r}
+library(tidyverse)
+```
+
+#### 1.데이터LOAD
+```{r}
+load("koweps/welfare_2016.rda")
+```
+#### 2.나이 및 성별 월급 평균표
+```{r}
+welfare %>% filter(!is.na(income)) %>% 
+    select(sex,age,income) %>% 
+    group_by(age,sex) %>% 
+    summarise(mean_income=mean(income))->incomebyage
+```
+#### 3.그래프 만들기
+```{r}
+incomebyage %>% ggplot(aes(age,mean_income,color=sex))+
+                geom_line()
+```

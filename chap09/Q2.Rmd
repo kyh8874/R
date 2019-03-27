@@ -1,0 +1,43 @@
+---
+title: "Q2"
+author: "rhadoop"
+date: "2019년 3월 27일"
+output: 
+  word_document: default
+  html_document: default
+  pdf_document: 
+    latex_engine: xelatex
+  github_document: default
+  html_notebook: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+### 나이와 월급의 관계(incomebyage) - 몇 살때 월급을 가장 많이 받을까?
+```{r}
+ library(tidyverse)
+```
+#### 1.데이터LOAD
+```{r}
+load("koweps/welfare_2016.rda")
+```
+#### 2.나이변수 전처리 
+table(is.na(welfare$birth))
+welfare[order(welfare$birth),"birth"] %>% head(10)
+welfare[order(-welfare$birth),"birth"] %>% head(10)
+
+#### 3.변수추가 및 나이계산
+welfare$age = 2016-welfare$birth+1
+
+#### 4.나이별 평균 월급요약표
+```{r}
+welfare %>% filter(!is.na(income)) %>% 
+    group_by(age) %>% 
+    summarise(mean=mean(income)) ->incomebyage
+```
+#### 5.라인그래프
+```{r}
+ggplot(incomebyage,aes(age,mean))+geom_line()
+```

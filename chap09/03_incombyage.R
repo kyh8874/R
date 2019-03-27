@@ -24,6 +24,7 @@ qplot(x='group',y=birth, data= welfare, geom='boxplot')
 qplot(x=birth, data=welfare, geom='histogram', breaks=seq(1900,2014, by=20))  #직관적이지 못함
 
 # age파생변수 만듬 inplace로 정제된 전처리에 추가하고 데이터를 저장하도록 할것
+
 # welfare$age = 2015-welfare$birth+1
 
 summary(welfare)
@@ -43,4 +44,5 @@ welfare %>% filter(!is.na(income)) %>%
 #나이를 시계열자료로 보고 라인그래프를 활용
 incomebyage %>% ggplot(aes(age,mean))+geom_col()
 ggplot(incomebyage,aes(age,mean))+geom_line()
+
 
