@@ -29,19 +29,32 @@ welfare %<>% mutate(sex=ifelse(sex==1, "male","female")) %>%
                      ifelse(age < 60, 'middle','old'))) %>% 
              mutate(code_job = as.character(welfare$code_job)) %>% 
              mutate(code_job=ifelse(str_length(code_job)==3,
-                                    str_c("0",code_job),
-                                    code_job)) %>% 
+                                    str_c("0",code_job),code_job)) %>% 
+             mutate(religion=ifelse(religion ==1 ,"yes" , "no" )) %>%
+             mutate(group_marriage=(ifelse(marriage==1, "marriage",
+                                           ifelse(marriage==3,"divorce",NA)))) %>%  
              select(sex, 
                     birth,
                     age,
                     ageg,
                     marriage,
                     religion,
+                    group_marriage,
                     income,
                     code_job,
                     code_region) 
 
+region7=data.frame(code_region=c(1,2,3,4,5,6,7),
+                   region=c("서울",
+                            "수도권(인천/경기)",
+                            "부산/경남/울산",
+                            "대구/경북",
+                            "대전/충남",
+                            "강원/충북 ",
+                            "광주/전남/전북/제주도"),stringsAsFactors=F)
 
-save(welfare,file="koweps/welfare.rda")
+save(welfare,region7,file="koweps/welfare.rda")
           
-    
+write_csv(welfare,"koweps/welfrae.csv")
+write_csv(region7,"koweps/region7.csv")
+

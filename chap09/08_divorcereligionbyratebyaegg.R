@@ -21,7 +21,7 @@ divorceratiobyreligion1 %>%
 welfare %>% filter(!is.na(group_marriage)) %>% 
     filter(!is.na(religion)) %>%  
     count(religion,group_marriage) %>% 
-    group_by(religion) %>%    # sum은 group정보를 갖지않아서 만들어 준다
+    group_by(religion) %>%    # sum은 group정보를 갖지않아서 만들어 준다 count는 그룹정보가 없다
     mutate(total=sum(n)) %>% 
     mutate(pct=round(n/total*100,1)) %>% 
     filter(group_marriage =='divorce')->divorceratiobyreligion2
@@ -64,5 +64,63 @@ sqldf("
 
     divorceratiobyreligion1 %>% 
         ggplot(aes(religion,pct))+geom_col()
+    
+    #divorcebyreligionbyageg
+    welfare %>% filter(!is.na(ageg)) %>% 
+        filter(!is.na(religion)) %>% 
+        filter(!is.na(group_marriage)) %>% 
+        group_by(ageg,religion,group_marriage) %>% 
+        summarise(n=n()) %>% 
+        mutate(total=sum(n)) %>% 
+        mutate(ratio=n/total*100) %>% 
+        filter(group_marriage=="divorce") ->divorcebyreligionbyageg1
+    
+    divorcebyreligionbyageg1
+    
+    divorcebyreligionbyageg1 %>% 
+        ggplot(aes(ageg,ratio, fill=religion))+
+        geom_col(position="dodge")+
+        scale_x_discrete(limits=c('young','middle','old')) + 
+        labs(x="ageg",y="ratio",title="Divoce ratio by ageg by religion")
+    
+    welfare %>% filter(!is.na(ageg)) %>% 
+        filter(!is.na(religion)) %>% 
+        filter(!is.na(group_marriage)) %>% 
+        count(ageg,religion,group_marriage) %>% 
+        group_by(ageg,religion) %>% 
+        mutate(total=sum(n)) %>% 
+        mutate(ratio=n/total*100) %>% 
+        filter(group_marriage=="divorce") ->divorcebyreligionbyageg2
+    
+    divorcebyreligionbyageg2
+    
+    divorcebyreligionbyageg2 %>% 
+        ggplot(aes(ageg,ratio, fill=religion))+
+        geom_col(position="dodge")+
+        scale_x_discrete(limits=c('young','middle','old')) + 
+        labs(x="ageg",y="ratio",title="Divoce ratio by ageg by religion")
+    
+    sqldf(" select a.ageg, a.religion, group_marriage, n , total, 1.0*n/total*100 as ratio 
+       from
+         (select ageg, religion, count(*) as total from welfare
+             where ageg not null and religion not null and group_marriage not null
+             group by ageg, religion) a,
+         (select ageg,religion,group_marriage, count(*) as n  from welfare
+             where ageg not null and religion not null and group_marriage not null
+             group by ageg,religion,group_marriage) b
+      where a.ageg=b.ageg and a.religion=b.religion and group_marriage = 'divorce'
+    ")->divorcebyreligionbyageg3
+    
+     divorcebyreligionbyageg3
+    
+     divorcebyreligionbyageg3 %>% 
+         ggplot(aes(ageg,ratio, fill=religion))+
+         geom_col(position="dodge")+
+         scale_x_discrete(limits=c('young','middle','old')) + 
+         labs(x="ageg",y="ratio",title="Divoce ratio by ageg by religion")
+    
+    
+    
+    
     
     

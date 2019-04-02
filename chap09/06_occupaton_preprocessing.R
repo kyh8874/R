@@ -85,6 +85,9 @@ save(occupation2,file="koweps/occupation.rda")
 save(occupation1,file="koweps/occupation1.rda")
 load("Data/occupation2.rda")
 
+#csv type save
+write_csv(occupation2,"koweps/occupation1.csv")
+
 ##trim으로 공백제거
 occupation1$job=str_trim(occupation1$job)
 ## replace
