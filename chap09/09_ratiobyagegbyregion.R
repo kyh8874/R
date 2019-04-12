@@ -50,3 +50,29 @@ ratiobyagegbyregion1 %>%
     coord_flip()+
     scale_x_discrete(limits=sort2$region)
 
+library(sqldf)
+sqldf("select code_region, ageg, count(*) as n  from welfare
+             where ageg not null and code_region not null
+             group by code_region, ageg")->region
+
+sqldf("select code_region, sum(n) total from region
+         group by code_region")->sum_region
+
+sqldf(" select * from region, sum_region
+         where region.code_region = sum_region.code_region
+         ") -> data
+
+sqldf("select region, ageg, 1.0*n/total*100 as ratio from data,region7
+        where data.code_region=region7.code_region")->ratiobyagegbyregion1
+
+ratiobyagegbyregion1 %>% 
+    arrange(factor(ageg,levels='old','middle','young'),ratio) %>% 
+    filter(ageg=='old')->sort2
+
+ratiobyagegbyregion1 %>% 
+    ggplot(aes(region,ratio,fill=ageg))+
+    geom_col()+
+    coord_flip()+
+    scale_x_discrete(limits=sort2$region)
+
+
