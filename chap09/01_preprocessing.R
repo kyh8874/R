@@ -11,7 +11,7 @@ library(readxl)
 library(sas7bdat)
 
 
-read.dta("koweps/Koweps_hpc10_2015_beta3.dta") %>% 
+read.dta("koweps/Koweps_hpwc11_2016_beta3.dta") %>% 
 #read.spss("koweps/Koweps_hpc10_2015_beta3.sav") %>% 
 #read.sas7bdat("koweps/koweps_h10_2015_beta3.sas7bdat") %>%     
           rename(sex=h10_g3) %>% #성별(sex)
